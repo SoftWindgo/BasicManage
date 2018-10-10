@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ResultMap">
+	<resultMap type="com.luotianyi.t06.entity.Roles" id="roles" autoMapping="true">
+		<id property="rolesId" column="roles_id"/>
+		<collection property="permissions" column="{rolesId=roles_id}"
+		select="com.luotianyi.t06.dao.PermissionMapper.selectByRolesId"></collection>
+	</resultMap>
+	<resultMap type="com.luotianyi.t06.entity.UsersRole" id="usersRole" autoMapping="true">
+		<association property="users" column="user_id" select="com.luotianyi.t06.dao.UsersMapper.selectOne"></association>
+		<association property="roles" column="roles_id" select="com.luotianyi.t06.dao.RolesMapper.selectOne"></association>
+	</resultMap>
+	<resultMap type="com.luotianyi.t06.entity.RolesPermission" id="rolesPermission" autoMapping="true">
+		<association property="roles" column="roles_id" select="com.luotianyi.t06.dao.RolesMapper.selectOne"></association>
+		<association property="permission" column="permis_id" select="com.luotianyi.t06.dao.PermissionMapper.selectOne"></association>
+	</resultMap>
+	<resultMap type="com.luotianyi.t06.entity.ResRoles" id="resRoles" autoMapping="true">
+		<association property="resources" column="res_id" select="com.luotianyi.t06.dao.ResourcesMapper.selectOne"></association>
+		<association property="roles" column="roles_id" select="com.luotianyi.t06.dao.RolesMapper.selectOne"></association>
+	</resultMap>
+</mapper>

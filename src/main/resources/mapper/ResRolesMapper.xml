@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luotianyi.t06.dao.ResRolesMapper">
+	<insert id="insertByResRoles" parameterType="ResRoles">
+		INSERT INTO res_roles(
+		res_id,roles_id) 
+		VALUES(
+		#{resRoles.resId},#{resRoles.rolesId})
+	</insert>
+	<delete id="deleteById">
+		DELETE FROM res_roles
+		WHERE res_id=#{resId} AND roles_id=#{rolesId}
+	</delete>
+	<update id="updateByResRoles" parameterType="ResRoles">
+		UPDATE res_roles
+		set res_id=#{retResRoles.resId} , roles_id=#{retResRoles.rolesId}
+		WHERE res_id=#{resRoles.resId} AND roles_id=#{resRoles.rolesId}
+	</update>
+	<select id="selectOne" resultMap="ResultMap.resRoles">
+		SELECT * FROM res_roles WHERE res_id=#{resId} AND roles_id=#{rolesId}
+	</select>
+
+	<select id="selectAll" resultMap="ResultMap.resRoles">
+		SELECT * FROM res_roles
+	</select>
+</mapper>

@@ -1,0 +1,98 @@
+<script type="text/javascript" src="/resources/js/resources.js"></script>
+	<button type="button" class="btn btn-outline btn-success"
+		data-toggle="modal" data-target="#addModal">添加</button>
+<!-- 增加模态框 -->
+<div style="margin-bottom: auto" class="modal fade" id="addModal"
+	tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">添加</h4>
+			</div>
+			<form id="addForm">
+				<div class="modal-body">
+					<div class="form-group">
+						<h4 class="modal-title">菜单名称</h4>
+						<input class="form-control" name="resName"><span></span>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<h4 class="modal-title">菜单路径</h4>
+						<input class="form-control" name="resUrl"><span></span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="addBtn">添加权限</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 修改模态框 -->
+<div style="margin-bottom: auto" class="modal fade" id="updModal"
+	tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">修改</h4>
+			</div>
+			<form id="updForm">
+				<input name="resId" type="hidden" :value="content.resId">
+				<div class="modal-body">
+					<div class="form-group">
+						<h4 class="modal-title">菜单名称</h4>
+						<input class="form-control" name="resName" :value="content.resName"><span></span>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<h4 class="modal-title">菜单路径</h4>
+						<input class="form-control" name="resUrl" :value="content.resUrl"><span></span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="updBtn">修改权限</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<table width="100%;"
+				class="table table-striped table-bordered table-hover table-responsive text-center">
+				<thead>
+					<tr>
+						<th>菜单编号</th>
+						<th>菜单名称</th>
+						<th>菜单路径</th>
+						<th>编辑</th>
+					</tr>
+				</thead>
+				<tbody id="dataContainer">
+					<tr v-for="res in content">
+						<td><p>{{ res.resId }}</p></td>
+						<td><p>{{ res.resName }}</p></td>
+						<td><p>{{ res.resUrl }}</p></td>
+						<td>
+							<button type="button" @click="updateWithId(res.resId)"
+								class="btn btn-info">修改</button>
+							<button type="button" @click="deleteWithId(res.resId)"
+								class="btn btn-danger">删除</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luotianyi.t06.dao.ResourcesMapper">
+	<insert id="insertByResources" parameterType="Resources">
+		INSERT INTO resources(
+		res_id,res_name,res_url) 
+		VALUES(
+		#{resources.resId},#{resources.resName},#{resources.resUrl})
+	</insert>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM resources
+		WHERE res_id=#{resId}
+	</delete>
+	<update id="updateByResources" parameterType="Resources">
+		UPDATE resources
+		<set>
+			<if test="resources.resName != null">
+				res_name=#{resources.resName},
+			</if>
+			<if test="resources.resUrl != null">
+				res_url=#{resources.resUrl},
+			</if>
+		</set>
+		WHERE res_id=#{resources.resId}
+	</update>
+	<select id="selectOne" parameterType="Integer" resultType="Resources">
+		SELECT * FROM resources WHERE res_id=#{resId}
+	</select>
+	<select id="selectByUserId" resultType="Resources">
+		SELECT * FROM resources WHERE 
+		exists(
+			SELECT 1 FROM res_roles WHERE
+				exists(
+					SELECT 1 FROM users_role 
+						WHERE user_id=#{userId} AND res_roles.roles_id=users_role.roles_id
+				) AND resources.res_id=res_roles.res_id
+		)
+	</select>
+	<select id="selectAll" resultType="Resources">
+		SELECT * FROM resources
+	</select>
+</mapper>

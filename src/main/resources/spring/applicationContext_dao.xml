@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<context:annotation-config />
+
+	<tx:annotation-driven />
+
+	<context:component-scan
+		base-package="com.luotianyi.t06.dao">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+	<bean id="adViceContorller"
+		class="com.luotianyi.t06.shiro.bean.SimpleLogAdvice"></bean>
+	<tx:advice id="txAdvice"
+		transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insertBy*" />
+			<tx:method name="deleteBy*" />
+			<tx:method name="update*" />
+			<tx:method name="select*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.luotianyi.t06.service..*(..))"
+			id="cutPoint" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="cutPoint" />
+		<aop:aspect ref="adViceContorller">
+			<aop:pointcut
+				expression="execution(* com.luotianyi.t06.dao.*.insert*(..))"
+				id="i1" />
+			<aop:pointcut
+				expression="execution(* com.luotianyi.t06.dao.*.delete*(..))"
+				id="i2" />
+			<aop:pointcut
+				expression="execution(* com.luotianyi.t06.dao.*.inser*(..))"
+				id="i3" />
+				<aop:pointcut
+				expression="execution(* com.luotianyi.t06.dao.*.inser*(..))"
+				id="i4" />
+			<aop:after-returning method="after" returning="returnVal" pointcut-ref="i1" />
+			<aop:after-returning method="after" returning="returnVal" pointcut-ref="i2" />
+			<aop:after-returning method="after" returning="returnVal" pointcut-ref="i3" />
+		</aop:aspect>
+	</aop:config>
+</beans>

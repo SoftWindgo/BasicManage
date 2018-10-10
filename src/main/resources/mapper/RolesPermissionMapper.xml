@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luotianyi.t06.dao.RolesPermissionMapper">
+	<insert id="insertByRolesPermission" parameterType="RolesPermission">
+		INSERT INTO roles_permission(
+		roles_id,permis_id) 
+		VALUES(
+		#{rolesPermission.rolesId},#{rolesPermission.permisId})
+	</insert>
+	<delete id="deleteById">
+		DELETE FROM roles_permission
+		WHERE roles_id=#{rolesId} AND permis_id=#{permisId}
+	</delete>
+	<update id="updateByRolesPermission" parameterType="RolesPermission">
+		UPDATE roles_permission set
+		roles_id = #{retRolesPermission.rolesId} , permis_id = #{retRolesPermission.permisId}
+		WHERE roles_id=#{rolesPermission.rolesId} AND permis_id=#{rolesPermission.permisId}
+	</update>
+	<select id="selectOne" resultMap="ResultMap.rolesPermission">
+		SELECT * FROM roles_permission WHERE roles_id=#{rolesId} AND permis_id=#{permisId}
+	</select>
+
+	<select id="selectAll" resultMap="ResultMap.rolesPermission">
+		SELECT * FROM roles_permission
+	</select>
+</mapper>

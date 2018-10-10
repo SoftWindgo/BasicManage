@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luotianyi.t06.dao.PermissionMapper">
+	<insert id="insertByPermission" parameterType="Permission">
+		INSERT INTO permission(
+		permis_id,permis_name,permis_url) 
+		VALUES(
+		#{permission.permisId},#{permission.permisName},#{permission.permisUrl})
+	</insert>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM permission
+		WHERE permis_id=#{permisId}
+	</delete>
+	<update id="updateByPermission" parameterType="Permission">
+		UPDATE permission
+		<set>
+			<if test="permission.permisName != null">
+				permis_name=#{permission.permisName},
+			</if>
+			<if test="permission.permisUrl != null">
+				permis_url=#{permission.permisUrl},
+			</if>
+		</set>
+		WHERE permis_id=#{permission.permisId}
+	</update>
+	<select id="selectOne" parameterType="Integer" resultType="Permission">
+		SELECT * FROM permission WHERE permis_id=#{permisId}
+	</select>
+	<select id="selectByRolesId" resultType="Permission">
+		SELECT * FROM permission WHERE
+		exists(SELECT 1 FROM users_role WHERE roles_id=#{rolesId})
+	</select>
+	<select id="selectPermisByUserId" resultType="String">
+		SELECT permis_name FROM permission WHERE 
+			exists(SELECT 1 FROM users_role WHERE user_id=#{usersId} AND 
+				exists(SELECT 1 FROM roles_permission 
+					WHERE users_role.roles_id=roles_permission.roles_id 
+						AND roles_permission.permis_id=permission.permis_id))
+	</select>
+	<select id="selectAll" resultType="Permission">
+		SELECT * FROM permission
+	</select>
+</mapper>

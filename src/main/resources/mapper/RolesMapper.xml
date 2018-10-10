@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luotianyi.t06.dao.RolesMapper">
+	<insert id="insertByRoles" parameterType="Roles">
+		INSERT INTO roles( roles_id,roles_name)
+		VALUES( #{roles.rolesId},#{roles.rolesName})
+	</insert>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM roles
+		WHERE
+		roles_id=#{rolesId}
+	</delete>
+	<update id="updateByRoles" parameterType="Roles">
+		UPDATE roles
+		<set>
+			<if test="roles.rolesName != null">
+				roles_name=#{roles.rolesName},
+			</if>
+		</set>
+		WHERE roles_id=#{roles.rolesId}
+	</update>
+	<select id="selectOne" parameterType="Integer"
+		resultType="Roles">
+		SELECT * FROM roles WHERE roles_id=#{rolesId}
+	</select>
+	<select id="selectByUserId" resultMap="ResultMap.roles">
+		SELECT * FROM roles WHERE
+		exists(SELECT 1 FROM users_role 
+		WHERE user_id=#{usersId} AND users_role.roles_id=roles.roles_id)
+	</select>
+	<select id="selectAll" resultType="Roles">
+		SELECT * FROM roles
+	</select>
+</mapper>

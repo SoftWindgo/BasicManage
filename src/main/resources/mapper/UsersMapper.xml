@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luotianyi.t06.dao.UsersMapper">
+	<insert id="insertByUsers" parameterType="Users">
+		INSERT INTO users(
+		users_id,username,password) 
+		VALUES(
+		#{users.usersId},#{users.username},#{users.password})
+	</insert>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM users
+		WHERE users_id=#{usersId}
+	</delete>
+	<update id="updateByUsers" parameterType="Users">
+		UPDATE users
+		<set>
+			<if test="users.username != null">
+				username=#{users.username},
+			</if>
+			<if test="users.password != null">
+				password=#{users.password},
+			</if>
+		</set>
+		WHERE users_id=#{users.usersId}
+	</update>
+	<select id="selectOne" parameterType="Integer" resultType="Users">
+		SELECT * FROM users WHERE users_id=#{usersId}
+	</select>
+	<select id="selectByUsername" resultType="Users">
+		SELECT * FROM users WHERE username like #{username}
+	</select>
+	<select id="selectAll" resultType="Users">
+		SELECT * FROM users
+	</select>
+</mapper>
